@@ -18,15 +18,24 @@ class Target {
         int ledPinNumber;
 
     public:
+        Target();
         Target(int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
-
-        void setTarget(int degree);
-        int getPhotoresistorValue();
+        ~Target();
 
         Servo getServo() { return servo; }
         int getServoPinNumber() { return servoPinNumber; }
         int getPhotoresistorPinNumber() { return photoresistorPinNumber; }
         int getLedPinNumber() { return ledPinNumber; }
+        int getLedStatus() { return digitalRead(ledPinNumber); }
+        int getPhotoresistorValue();
+        boolean isRaised();
+        boolean evaluateTargetForHit(int lightThreshold);
+
+        void setLed(int status);
+        void toggleLed();
+        void setTargetPosition(int degree);
+        void raiseTarget();
+        void lowerTarget();
 
 };
 
