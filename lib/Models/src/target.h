@@ -12,6 +12,7 @@
 class Target {
     
     private:
+        String name;
         Servo servo;
         int servoPinNumber;
         int photoresistorPinNumber;
@@ -19,14 +20,16 @@ class Target {
 
     public:
         Target();
-        Target(int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
+        Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
         ~Target();
 
+        String getName() { return name; }
         Servo getServo() { return servo; }
         int getServoPinNumber() { return servoPinNumber; }
+        int getServoPosition() { return servo.read(); }
         int getPhotoresistorPinNumber() { return photoresistorPinNumber; }
-        int getLedPinNumber() { return ledPinNumber; }
-        int getLedStatus() { return digitalRead(ledPinNumber); }
+        int getLedPinNumber();
+        int getLedStatus();
         int getPhotoresistorValue();
         boolean isRaised();
         boolean evaluateTargetForHit(int lightThreshold);
@@ -36,6 +39,22 @@ class Target {
         void setTargetPosition(int degree);
         void raiseTarget();
         void lowerTarget();
+
+};
+
+class AdvancedTarget : public Target {
+
+    private:
+        String movingDirection;
+        int moveDistance;
+
+    public:
+        AdvancedTarget();
+        AdvancedTarget(int moveDistance);
+        void setMovingDirection(String movingDirection) { this->movingDirection = movingDirection; }
+        String getMovingDirection() { return movingDirection; }
+        void moveAdvancedTarget();
+        void resetTarget();
 
 };
 

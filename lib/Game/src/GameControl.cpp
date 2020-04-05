@@ -1,17 +1,18 @@
 #include "GameControl.h"
+#include "troubleshooter.h"
 
 /**
  * GameControl constructor.
  * 
  * @param frontTargets an array of targets that will be attached to front of physical game box. Cannot be NULL.
- * @param zurg a target that represents the zurg target. Cannot be NULL.
+ * @param villain a target that represents the villain target. Cannot be NULL.
  * @param hostage a target that represents the hostage target. Cannot be NULL.
  * */
-GameControl::GameControl(Target frontTargets[], Target zurg, Target hostage) {
+GameControl::GameControl(Target frontTargets[], Target villain, Target hostage) {
     for (int i = 0; i < 4; i++) {
         this->frontTargets[i] = frontTargets[i];
     }
-    this->zurg = zurg;
+    this->villain = villain;
     this->hostage = hostage;
     this->lightThreshold = calibratePhotoresistors();
 }
@@ -39,7 +40,16 @@ void GameControl::startRound(int mode, int score) {
     }
 
     if (score * 100 > mode * 500) {
-        // TODO impl bonus round with Zurg and hostage.
+        Serial.println("You have reached the bonus round!");
+        Serial.println("The villain has taken a hostage! Hit the villain but do not hit the hostage.");
+
+        long bonusRoundEndTime = millis() + 10000;
+        while (millis() > bonusRoundEndTime) {
+            villain.moveAdvancedTarget();
+            hostage.moveAdvancedTarget();
+            evaluateVillainTargetForHit();
+            evaluateHostageTargetForHit();
+        }
     }
 }
 
@@ -53,7 +63,7 @@ void GameControl::runGame() {
 
     // 30 seconds to select a mode and initiate the game
     while (millis() < selectionTimer) {
-        for (int mode = 0; mode < 3; mode++) {
+        for (int mode = 0; mode < 4; mode++) {
             if (frontTargets[mode].getPhotoresistorValue() > lightThreshold) {
                 lowerTargets();
                 startRound(mode, score);
@@ -68,27 +78,35 @@ void GameControl::runGame() {
 }
 
 void GameControl::runTroubleshooting() {
-    // TODO impl for running troubleshooting
+    Serial.println("----- START TROUBLESHOOTING REPORT -----");
+
+    for (int i = 0; i < 4; i++) {
+        testTarget(frontTargets[i]);
+    }
+    testTarget(villain);
+    testTarget(hostage);
+
+    Serial.println("----- END TROUBLESHOOTING REPORT -----");
 }
 
 void GameControl::raiseFrontTargets() {
     for (int i = 0; i < 4; i++) {
-        frontTargets[i].raiseTarget;
+        frontTargets[i].raiseTarget();
     }
 }
 
 void GameControl::raiseTargets() {
     raiseFrontTargets();
-    zurg.setTargetPosition(120);
+    villain.setTargetPosition(120);
     hostage.setTargetPosition(60);
 }
 
 void GameControl::lowerTargets() {
     for (int i = 0; i < 4; i++) {
-        frontTargets[i].lowerTarget;
+        frontTargets[i].lowerTarget();
     }
-    zurg.lowerTarget;
-    hostage.lowerTarget;
+    villain.lowerTarget();
+    hostage.lowerTarget();
 }
 
 int GameControl::calibratePhotoresistors() {
@@ -97,8 +115,8 @@ int GameControl::calibratePhotoresistors() {
     for (int i = 0; i < 4; i++) {
         evaluatePhotoresistor(lightThreshold, frontTargets[i].getPhotoresistorValue());
     }
-    evaluatePhotoresistor(lightThreshold, zurg.getPhotoresistorValue());
-    evaluatePhotoresistor(lightThreshold, hostage.getPhotoresistorValue);
+    evaluatePhotoresistor(lightThreshold, villain.getPhotoresistorValue());
+    evaluatePhotoresistor(lightThreshold, hostage.getPhotoresistorValue());
     return lightThreshold + 500;
 }
 
@@ -116,8 +134,8 @@ boolean GameControl::evaluateFrontTargetForHit(int target) {
     return successfulHit;
 }
 
-boolean GameControl::evaluateZurgTargetForHit() {
-    return zurg.evaluateTargetForHit(lightThreshold);
+boolean GameControl::evaluateVillainTargetForHit() {
+    return villain.evaluateTargetForHit(lightThreshold);
 }
 
 boolean GameControl::evaluateHostageTargetForHit() {

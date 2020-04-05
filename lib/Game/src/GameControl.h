@@ -11,8 +11,8 @@ class GameControl {
 
     private:
         Target frontTargets[4];
-        Target zurg;
-        Target hostage;
+        AdvancedTarget villain;
+        AdvancedTarget hostage;
         int lightThreshold;
 
         void startRound(int mode, int score);
@@ -22,16 +22,16 @@ class GameControl {
         int calibratePhotoresistors();
         void evaluatePhotoresistor(int currentLightThreashold, int newValue);
         boolean evaluateFrontTargetForHit(int target);
-        boolean evaluateZurgTargetForHit();
+        boolean evaluateVillainTargetForHit();
         boolean evaluateHostageTargetForHit();
     
     public:
         GameControl();
-        GameControl(Target frontTargets[], Target zurg, Target hostage);
+        GameControl(Target frontTargets[], AdvancedTarget villain, AdvancedTarget hostage);
 
         Target* getfrontTargets() { return frontTargets; }
-        Target getZurgTarget() { return zurg; }
-        Target getHostageTarget() { return hostage; }
+        AdvancedTarget getVillainTarget() { return villain; }
+        AdvancedTarget getHostageTarget() { return hostage; }
         void runGame();
         void runTroubleshooting();
 
