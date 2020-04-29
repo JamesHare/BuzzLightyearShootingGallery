@@ -5,7 +5,7 @@
 
 /**
  * Serves as a class for the main game control. Has the functionality to run a game, calibrate photoresistors
- * and call the troubleshooter..
+ * and call the troubleshooter.
  * */
 class GameControl {
 
