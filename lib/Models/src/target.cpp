@@ -6,7 +6,7 @@
  * @param name the name that will identify the target.
  * @param servoPinNumber the pin number that the servo is attached to. Cannot be NULL.
  * @param photoresistorPinNumer the pin number that the photoresistor is attached to. Cannot be NULL.
- * @param ledPinNumber the pin number that the led is attached to.
+ * @param ledPinNumber the pin number that the led is attached to..
  * */
 Target::Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber) {
     if (name == NULL) {

@@ -7,7 +7,7 @@
 /**
  * Serves as a class for a game target. Provides the functionality to attach a servo
  * to a pin, set the servo to a degree and read the value of a photoresistor to signify
- * that the user has hit the target.
+ * that the user has hit the target..
  * */
 class Target {
     

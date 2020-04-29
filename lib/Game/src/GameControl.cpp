@@ -6,7 +6,7 @@
  * 
  * @param frontTargets an array of targets that will be attached to front of physical game box. Cannot be NULL.
  * @param villain a target that represents the villain target. Cannot be NULL.
- * @param hostage a target that represents the hostage target. Cannot be NULL.
+ * @param hostage a target that represents the hostage target. Cannot be NULL..
  * */
 GameControl::GameControl(Target frontTargets[], Target villain, Target hostage) {
     for (int i = 0; i < 4; i++) {

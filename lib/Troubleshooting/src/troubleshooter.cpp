@@ -1,5 +1,8 @@
 #include "troubleshooter.h"
 
+/**
+ * Runs troubleshooting on a single target.
+ * */
 void testTarget(Target target) {
     Serial.println('Starting tests on Target ' + target.getName());
     Serial.println("");
