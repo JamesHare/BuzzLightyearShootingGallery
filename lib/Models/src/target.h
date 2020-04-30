@@ -50,7 +50,7 @@ class AdvancedTarget : public Target {
 
     public:
         AdvancedTarget();
-        AdvancedTarget(int moveDistance);
+        AdvancedTarget(int moveDistance):Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
         void setMovingDirection(String movingDirection) { this->movingDirection = movingDirection; }
         String getMovingDirection() { return movingDirection; }
         void moveAdvancedTarget();

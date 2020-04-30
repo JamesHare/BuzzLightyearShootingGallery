@@ -8,7 +8,7 @@
  * @param villain a target that represents the villain target. Cannot be NULL.
  * @param hostage a target that represents the hostage target. Cannot be NULL.
  * */
-GameControl::GameControl(Target frontTargets[], Target villain, Target hostage) {
+GameControl::GameControl(Target frontTargets[], AdvancedTarget villain, AdvancedTarget hostage) {
     for (int i = 0; i < 4; i++) {
         this->frontTargets[i] = frontTargets[i];
     }
