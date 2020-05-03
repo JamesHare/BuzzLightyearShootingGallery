@@ -22,8 +22,6 @@ class GameControl {
         int calibratePhotoresistors();
         void evaluatePhotoresistor(int currentLightThreashold, int newValue);
         boolean evaluateFrontTargetForHit(int target);
-        boolean evaluateVillainTargetForHit();
-        boolean evaluateHostageTargetForHit();
     
     public:
         GameControl();

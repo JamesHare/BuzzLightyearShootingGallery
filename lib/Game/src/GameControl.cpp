@@ -26,6 +26,7 @@ GameControl::GameControl(Target frontTargets[], AdvancedTarget villain, Advanced
 void GameControl::startRound(int mode, int score) {
     long roundEndTime = millis() + 30000;
 
+    // main round
     while (millis() < roundEndTime) {
         int randomNum = random(0, 3);
         frontTargets[randomNum].raiseTarget();
@@ -37,19 +38,26 @@ void GameControl::startRound(int mode, int score) {
                 break;
             }
         }
+        if(frontTargets[randomNum].isRaised()) {
+            frontTargets[randomNum].lowerTarget();
+        }
     }
 
+    // bonus round
     if (score * 100 > mode * 500) {
         Serial.println("You have reached the bonus round!");
         Serial.println("The villain has taken a hostage! Hit the villain but do not hit the hostage.");
 
         long bonusRoundEndTime = millis() + 10000;
-        while (millis() > bonusRoundEndTime) {
+        boolean villainHit = false;
+        boolean hostageHit = false;
+        while (millis() > bonusRoundEndTime && !villainHit && !hostageHit) {
             villain.moveAdvancedTarget();
             hostage.moveAdvancedTarget();
-            evaluateVillainTargetForHit();
-            evaluateHostageTargetForHit();
+            villainHit = villain.evaluateTargetForHit(lightThreshold);
+            hostageHit = hostage.evaluateTargetForHit(lightThreshold);
         }
+        score = score + (villainHit * 20) - (hostageHit * 5);
     }
 }
 
@@ -132,12 +140,4 @@ boolean GameControl::evaluateFrontTargetForHit(int target) {
         frontTargets[target].lowerTarget();
     }
     return successfulHit;
-}
-
-boolean GameControl::evaluateVillainTargetForHit() {
-    return villain.evaluateTargetForHit(lightThreshold);
-}
-
-boolean GameControl::evaluateHostageTargetForHit() {
-    return hostage.evaluateTargetForHit(lightThreshold);
 }

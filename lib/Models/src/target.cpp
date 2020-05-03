@@ -84,7 +84,7 @@ boolean Target::evaluateTargetForHit(int lightThreshold) {
     return (isRaised() && getPhotoresistorValue() > lightThreshold);
 }
 
-AdvancedTarget::AdvancedTarget(int moveDistance):Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber) {
+AdvancedTarget::AdvancedTarget(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber, int moveDistance):Target(name, servoPinNumber, photoresistorPinNumber, ledPinNumber) {
     this->moveDistance = moveDistance;
     this->movingDirection = "left";
 }
