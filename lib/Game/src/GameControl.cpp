@@ -82,7 +82,10 @@ void GameControl::runGame() {
 
     lowerTargets(); // lower targets when game is over or a mode selection has not been made
     Serial.println("!! GAME OVER !!");
-    Serial.println('You scored ' + (score * 100) + ' points.');
+    // Serial.println("You scored " + (score * 100) + " points.");
+    Serial.print("You scored ");
+    Serial.print(score * 100);
+    Serial.println(" points");
 }
 
 void GameControl::runTroubleshooting() {
