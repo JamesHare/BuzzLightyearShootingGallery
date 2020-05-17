@@ -23,6 +23,7 @@ class Target {
         Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
         virtual ~Target();
 
+        void init();
         String getName() { return name; }
         Servo getServo() { return servo; }
         int getServoPinNumber() { return servoPinNumber; }

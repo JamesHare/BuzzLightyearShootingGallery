@@ -18,13 +18,32 @@ GameControl gameControl(frontTargets, villainTarget, hostageTarget);
 void setup() {
     Serial.begin(9600);
     pinMode(startButton, INPUT);
+    for (Target target : frontTargets) {
+        target.init();
+    }
+    villainTarget.init();
+    hostageTarget.init();
 }
 
 void loop() {
-    boolean startSelected = digitalRead(startButton);
-    if (startSelected) {
-        gameControl.runGame();
-    } else if (Serial.readString().equalsIgnoreCase("troubleshoot")) {
-        gameControl.runTroubleshooting();
-    }
+    targetOne.raiseTarget();
+    targetTwo.raiseTarget();
+    targetThree.raiseTarget();
+    targetFour.raiseTarget();
+    villainTarget.raiseTarget();
+    hostageTarget.raiseTarget();
+    delay(2000);
+    targetOne.lowerTarget();
+    targetTwo.lowerTarget();
+    targetThree.lowerTarget();
+    targetFour.lowerTarget();
+    villainTarget.lowerTarget();
+    hostageTarget.lowerTarget();
+    delay(2000);
+    // boolean startSelected = digitalRead(startButton);
+    // if (startSelected) {
+    //     gameControl.runGame();
+    // } else if (Serial.readString().equalsIgnoreCase("troubleshoot")) {
+    //     gameControl.runTroubleshooting();
+    // }
 }

@@ -4,14 +4,12 @@
  * Target constructor.
  * 
  * @param name the name that will identify the target.
- * @param servoPinNumber the pin number that the servo is attached to. Cannot be NULL.
- * @param photoresistorPinNumer the pin number that the photoresistor is attached to. Cannot be NULL.
+ * @param servoPinNumber the pin number that the servo is attached to.
+ * @param photoresistorPinNumer the pin number that the photoresistor is attached to.
  * @param ledPinNumber the pin number that the led is attached to.
  * */
 Target::Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber) {
     this->name = name;
-    servo.attach(servoPinNumber);
-    pinMode(ledPinNumber, OUTPUT);
     this->servoPinNumber = servoPinNumber;
     this->photoresistorPinNumber = photoresistorPinNumber;
     this->ledPinNumber = ledPinNumber;
@@ -22,6 +20,13 @@ Target::Target(){};
 Target::~Target() {
     servo.write(0);
     servo.detach();
+}
+
+void Target::init() {
+    this->servo.attach(servoPinNumber);
+    pinMode(ledPinNumber, OUTPUT);
+    Serial.print(name);
+    Serial.println(" is initiated successfully");
 }
 
 int Target::getLedPinNumber() {
@@ -53,16 +58,19 @@ void Target::setTargetPosition(int degree) {
     if (degree > 0 && degree < 180) {
         servo.write(degree);
     } else {
-        Serial.println("Not a valid degree for a this Targets servo. Must be between 0 and 180.");
+        Serial.print(degree);
+        Serial.println(" is not a valid degree for a this Targets servo. Must be between 0 and 180.");
     }
 }
 
 void Target::raiseTarget() {
-    servo.write(180);
+    this->servo.write(180);
+    Serial.print(name);
+    Serial.println(" is raised.");
 }
 
 void Target::lowerTarget() {
-    servo.write(0);
+    this->servo.write(0);
 }
 
 boolean Target::isRaised() {
