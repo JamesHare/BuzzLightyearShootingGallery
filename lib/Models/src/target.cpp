@@ -8,11 +8,13 @@
  * @param photoresistorPinNumer the pin number that the photoresistor is attached to.
  * @param ledPinNumber the pin number that the led is attached to.
  * */
-Target::Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber) {
+Target::Target(String name, Servo servo, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber) {
     this->name = name;
+    this->servo = servo;
     this->servoPinNumber = servoPinNumber;
     this->photoresistorPinNumber = photoresistorPinNumber;
     this->ledPinNumber = ledPinNumber;
+    pinMode(ledPinNumber, OUTPUT);
 }
 
 Target::Target(){};
@@ -81,7 +83,7 @@ boolean Target::evaluateTargetForHit(int lightThreshold) {
     return (isRaised() && getPhotoresistorValue() > lightThreshold);
 }
 
-AdvancedTarget::AdvancedTarget(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber, int moveDistance):Target(name, servoPinNumber, photoresistorPinNumber, ledPinNumber) {
+AdvancedTarget::AdvancedTarget(String name, Servo servo, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber, int moveDistance):Target(name, servo, servoPinNumber, photoresistorPinNumber, ledPinNumber) {
     this->moveDistance = moveDistance;
     this->movingDirection = "left";
 }

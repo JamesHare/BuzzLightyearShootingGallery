@@ -20,7 +20,7 @@ class Target {
 
     public:
         Target();
-        Target(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
+        Target(String name, Servo servo, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber);
         virtual ~Target();
 
         void init();
@@ -51,7 +51,7 @@ class AdvancedTarget : public Target {
 
     public:
         AdvancedTarget();
-        AdvancedTarget(String name, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber, int moveDistance);
+        AdvancedTarget(String name, Servo servo, int servoPinNumber, int photoresistorPinNumber, int ledPinNumber, int moveDistance);
         void setMovingDirection(String movingDirection) { this->movingDirection = movingDirection; }
         String getMovingDirection() { return movingDirection; }
         void moveAdvancedTarget();
